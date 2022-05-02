@@ -7,7 +7,7 @@ require_once '../vendor/autoload.php';
 /**
  * Sélection de toutes les catégories en BDD
  */
-$query = $db->query('SELECT * FROM categorie ORDER BY name');
+$query = $db->query('SELECT * FROM magazine INNER JOIN editeur ON editeur.id = magazine.edit_id');
 $categories = $query->fetchAll();
 
 /**
