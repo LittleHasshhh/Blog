@@ -14,7 +14,7 @@ require_once 'vendor/autoload.php';
 
 $idCategory = htmlspecialchars(strip_tags($_GET['category_id']));
 
-$query = $db->prepare('SELECT posts.id, posts.title, posts.content, posts.cover, posts.created_at, posts.category_id, categories.name AS category FROM posts INNER JOIN categories ON categories.id = posts.category_id WHERE posts.category_id = :category_id ORDER BY posts.created_at DESC');
+$query = $db->prepare('SELECT posts.id, posts.title, posts.content, posts.cover, posts.cree_le, posts.categorie_id, categorie.name AS category FROM posts INNER JOIN categorie ON categorie.id = posts.categorie_id WHERE posts.categorie_id = :category_id ORDER BY posts.cree_le DESC');
 $query->bindValue(':category_id', $idCategory, PDO::PARAM_INT);
 $query->execute();
 
@@ -103,7 +103,7 @@ if (!$articles) {
                                 </a>
                                 <p class="text-secondary">
                                     <?php 
-                                        $timestamp = strtotime($article['created_at']);
+                                        $timestamp = strtotime($article['cree_le']);
                                         echo date('d F Y', $timestamp); 
                                     ?>
                                 </p>
@@ -111,7 +111,7 @@ if (!$articles) {
                                     <?php echo mb_strimwidth($article['content'], 0, 200, '...'); ?>
                                 </p>
                                 <div class="d-flex align-items-center gap-2">
-                                    <a href="categories.php?category_id=<?php echo $article['category_id']; ?>" title="<?php echo $article['category']; ?>" class="badge rounded-pill bg-primary text-decoration-none">
+                                    <a href="categories.php?category_id=<?php echo $article['categorie_id']; ?>" title="<?php echo $article['category']; ?>" class="badge rounded-pill bg-primary text-decoration-none">
                                         <?php echo $article['category']; ?>
                                     </a>
                                 </div>

@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 // Connexion à la BDD
 require_once 'connexion.php';
 
@@ -61,6 +63,9 @@ $articles = $query->fetchAll();
                                 <li><a href="#" title="Styles" class="text-secondary text-decoration-none">Styles</a></li>
                                 <li><a href="#" title="About" class="text-secondary text-decoration-none">About</a></li>
                                 <li><a href="#" title="Contact" class="text-secondary text-decoration-none">Contact</a></li>
+                                <?php if (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'ROLE_ADMIN'): ?>
+                                    <li><a href="admin/index.php" title="Admin Menu" class="text-secondary text-decoration-none">ADMIN</a></li>
+                                <?php endif;?>
                             </ul>
                         </nav>
                     </div>
@@ -95,6 +100,13 @@ $articles = $query->fetchAll();
 
         <main class="py-5">
             <div class="container">
+                <!-- MSG de bienvenue utilisateur -->
+                <?php if (isset($_SESSION['user'])): ?>
+                    <div class="alert alert-success">
+                        Bonjour <?php echo $_SESSION['user']['nom']?> <?php echo $_SESSION['user']['prenom']?>
+                        <a href="logout.php" title="deconnexion">Se deconnecter</a>
+                    </div>
+                    <?php endif;?>
                 <!-- Les articles de mon blog -->
                 <div class="row">
                     

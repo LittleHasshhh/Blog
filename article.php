@@ -15,7 +15,7 @@ $id = htmlspecialchars(strip_tags($_GET['id']));
  * On "prépare" une requête SQL dès qu'une info externe
  * est transmise à celle-ci 
  */
-$query = $db->prepare('SELECT posts.id, posts.title, posts.content, posts.cover, posts.created_at, posts.category_id, categories.name AS category, users.lastname, users.firstname FROM posts INNER JOIN categories ON categories.id = posts.category_id INNER JOIN users ON users.id = posts.user_id WHERE posts.id = :id ORDER BY posts.created_at DESC');
+$query = $db->prepare('SELECT posts.id, posts.title, posts.content, posts.cover, posts.cree_le, posts.categorie_id, categorie.name AS category, users.nom, users.prenom FROM posts INNER JOIN categorie ON categorie.id = posts.categorie_id INNER JOIN users ON users.id = posts.users_id WHERE posts.id = :id ORDER BY posts.cree_le DESC');
 $query->bindValue(':id', $id, PDO::PARAM_INT);
 $query->execute();
 
@@ -23,8 +23,7 @@ $query->execute();
 $article = $query->fetch();
 
 // Si $article est égal à false...
-if (!$article) {
-    // ... redirection vers une page 404
+if (!$articles) {
     header('Location: 404.php');
 }
 
@@ -89,17 +88,17 @@ if (!$article) {
                     <h1 class="h1 text-start text-lg-center"><?php echo $article['title']; ?></h1>
                     <div class="row pt-lg-2 justify-content-center">
                         <div class="col-12 col-lg-4 text-start text-lg-end">
-                            <p class="text-secondary m-0"><?php echo date('d F Y', strtotime($article['created_at'])); ?></p>
+                            <p class="text-secondary m-0"><?php echo date('d F Y', strtotime($article['cree_le'])); ?></p>
                         </div>
                         <div class="col-12 col-lg-2">
                             <div class="d-lg-flex align-items-center justify-content-center gap-2">
-                                <a href="categories.php?category_id=<?php echo $article['category_id']; ?>" title="<?php echo $article['category']; ?>" class="badge rounded-pill bg-primary text-decoration-none">
+                                <a href="categories.php?category_id=<?php echo $article['categorie_id']; ?>" title="<?php echo $article['category']; ?>" class="badge rounded-pill bg-primary text-decoration-none">
                                     <?php echo $article['category']; ?>
                                 </a>
                             </div>
                         </div>
                         <div class="col-12 col-lg-4 text-lg-start">
-                            <?php echo "{$article['firstname']} {$article['lastname']}"; ?>
+                            <?php echo "{$article['nom']} {$article['prenom']}"; ?>
                         </div>
                         <div class="col-12 py-5 text-center">
                             <img src="images/upload/<?php echo $article['cover']; ?>" alt="Image de l'article" class="rounded read-article-img">

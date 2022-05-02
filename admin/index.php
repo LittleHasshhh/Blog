@@ -1,5 +1,6 @@
 <?php
 
+require_once 'checkAdmin.php';
 // Connexion à la BDD
 require_once '../connexion.php';
 
@@ -122,7 +123,7 @@ $articles = $query->fetchAll();
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Supprimer</button>
+                            <a href="#" class="btn btn-primary deletModal">Supprimer</a>
                         </div>
                         </div>
                     </div>
